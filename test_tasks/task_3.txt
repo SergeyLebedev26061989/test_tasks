@@ -1,0 +1,38 @@
+1,2. Создать таблицу «Организации», содержащую поля «Название организации», «ИНН», «Дата регистрации»;
+     Создать таблицу «Сотрудники организации», содержащую поля «Фамилия», «Имя», «Отчество», «Дата рождения»;
+
+     CREATE TABLE IF NOT EXISTS Organizations(
+	     id SERIAL PRIMARY KEY,
+	     NameOfTheOrganization VARCHAR(200) NOT NULL,
+	     INN INT(10) NOT NULL,
+	     Date_of_registration DATE NOT NULL
+	);
+
+
+     CREATE TABLE IF NOT EXISTS EmployeesOfTheOrganization(
+	     id SERIAL PRIMARY KEY,
+	     Name VARCHAR(25) NOT NULL,
+	     LastName VARCHAR(50) NOT NULL,
+	     Patronymic VARCHAR(25) NOT NULL,
+	     DateOfBorn DATE NOT NULL
+	);
+   
+  
+     CREATE TABLE EmployeesOfTheOrganization_Organizations(
+ 	     id SERIAL PRIMARY KEY,
+ 	     Organizations_id INTEGER NOT NULL REFERENCES Organizations(id),
+ 	     EmployeesOfTheOrganization_id INTEGER NOT NULL REFERENCES EmployeesOfTheOrganization(id)
+	);
+
+
+
+3. Определите все организации у которых работает сотрудник с фамилией «Иванов»:
+
+     SELECT o.NameOfTheOrganization FROM Organizations o
+     JOIN EmployeesOfTheOrganization e ON o.id = e.id
+     WHERE e.LastName LIKE 'Иванов';
+
+
+4. Определите 2-ух и более сотрудников с фамилией «Иванов», чье имя начинается на "И".
+
+     SELECT * FROM EmployeesOfTheOrganization WHERE LastName = 'Иванов' AND Name LIKE 'И%';
